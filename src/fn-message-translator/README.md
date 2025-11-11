@@ -3,11 +3,12 @@
 This Lambda is triggered by **SQS**. It:
 
 1. Extracts text from the message body,
-2. Detects the language with **Amazon Comprehend**,
+2. Detect the language with **Amazon Comprehend**,
 3. Translates non-English text to English using **Amazon Translate**,
 4. Posts a compact result JSON to a **webhook** (HTTP POST).
 
-It is designed for **single-record** SQS invocations (Batch size = 1).
+SQS may send multiple records within the `event`.  
+So make sure you can don't lose any!  
 
 ---
 

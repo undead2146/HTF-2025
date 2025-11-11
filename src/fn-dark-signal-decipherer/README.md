@@ -22,12 +22,8 @@ Example possible Dark Signal message
   "type": "dark-signal",
   "originalPayload": {
     "data": "eyJhbGciOiJzdWJzdGl0dXRpb24tY2lwaGVyIiwia2lkIjoiNWM5YjdlMmEtMWYzNC00ZDY3LThhOTAtYjFjMmQzZTRmNTY3IiwiY2lwaGVyIjoiYW8gdHBjcWVhZm0gd2R2In0=",
-    "species": "Clownfihs"
-  },
-  "detectedIssues": [
-    "missing location",
-    "missing intensity"
-  ]
+    "species": "Clownfish"
+  }
 }
 ```
 
@@ -50,8 +46,8 @@ Each successfully deciphered message is sent to **SQS** as JSON:
 
 ```json
 {
-  "text": "<plaintext message>",
-  "sourceMessageId": "<SNS MessageId>"
+  "Message": "<plaintext message>",
+  "TeamName": "<TeamName>"
   ...
 }
 ```

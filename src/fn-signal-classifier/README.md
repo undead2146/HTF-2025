@@ -25,23 +25,22 @@ Shape of an incoming event
   }
 }
 ```
-- Dark signals from upstream may have only `{ "data": "..." }` in `detail`, which will be detected as missing required fields. These need to be translated:
+- Dark signals from upstream may have only `{ "data": "..." }` in `detail`, which will be detected as missing required fields. These need to be translated later on:
 ```json
 {
   "type": "dark-signal",
-  "originalPayload": { /* original detail */ },
-  "detectedIssues": ["missing location", "missing intensity"]
+  "originalPayload": { /* original detail */ }
 }
 ```
 
 ### Routing Rules
 
-| type       | intensity condition | SNS Topic              |
+| type       | intensity condition | type              |
 | ---------- | ------------------- | ------------------ |
-| creature   | < 3               | `htf-2025-observation`      |
-| creature   | >= 3              | `htf-2025-rare-observation` |
-| hazard     | >= 2              | `htf-2025-alert`            |
-| anomaly    | >= 2              | `htf-2025-alert`            |
-| (fallback) | —                   | `htf-2025-observation`      |
+| creature   | < 3               | `observation`      |
+| creature   | >= 3              | `rare-observation` |
+| hazard     | >= 2              | `alert`            |
+| anomaly    | >= 2              | `alert`            |
+| (fallback) | —                   | `observation`      |
 
-**Dark signals** (any missing required field) → `htf-2025-dark-signals`
+**Dark signals** (any missing required field) → `dark-signals`

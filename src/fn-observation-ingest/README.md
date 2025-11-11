@@ -8,7 +8,7 @@ This Lambda ingests **SNS** messages containing sonar events and writes them to 
 
 ## Flow
 
-**SNS topics** (`htf-2025-observation`, `htf-2025-rare-observation`, `htf-2025-alert`) → **Lambda** (this function) → **DynamoDB** & **OpenSearch Serverless**
+**Types** (`observation`, `rare-observation`, `alert`) → **Lambda** (this function) → **DynamoDB** & **OpenSearch Serverless**
 
 - Only messages with the correct types!
 
