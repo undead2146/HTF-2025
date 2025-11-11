@@ -114,6 +114,8 @@ Resources:
         Variables:
           TeamName:
             Ref: TeamName
+          DynamoDBTable:
+            Ref: Challenge2DynamoDB
       Policies:
         - Statement:
           - Effect: Allow
@@ -124,6 +126,15 @@ Resources:
               - 'xray:PutTraceSegments'
               - 'xray:PutTelemetryRecords'
             Resource: '*'
+          - Effect: Allow
+            Action:
+              - 'opensearch:*'
+            Resource: '*'
+          - Effect: Allow
+            Action:
+              - 'dynamodb:*'
+            Resource:
+              - Fn::GetAtt: [ Challenge2DynamoDB, Arn ]
       Tags:
         Owner:
           Ref: TeamName
@@ -142,6 +153,26 @@ Resources:
         Ref: Challenge2SNS
 
   # Challenge 2 DynamoDB
+  Challenge2DynamoDB:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        -
+          AttributeName: "id"
+          AttributeType: "S"
+        -
+          AttributeName: "team"
+          AttributeType: "S"
+      KeySchema:
+        -
+          AttributeName: "team"
+          KeyType: "HASH"
+        -
+          AttributeName: "id"
+          KeyType: "RANGE"
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
 
   # Challenge 4 Lambda
   Challenge4Lambda:
