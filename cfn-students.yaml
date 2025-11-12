@@ -1,7 +1,7 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: >
-  SAM Template for the i8c Hack The Future 2025 Challenge (Team <TeamName>)
+  SAM Template for the i8c Hack The Future 2025 Challenge (Team SuperHacker)
 
 Globals:
   Function:
@@ -10,7 +10,7 @@ Globals:
 
 Parameters:
   TeamName:
-    Default: <TEAMNAME>
+    Default: SuperHacker
     Type: String
 
 Resources:
@@ -244,6 +244,7 @@ Resources:
         Variables:
           TeamName:
             Ref: TeamName
+          WEBHOOK_URL: <YOUR_DISCORD_WEBHOOK_URL>
       Policies:
         - Statement:
           - Effect: Allow
