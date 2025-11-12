@@ -5,7 +5,7 @@ export default withMermaid(
     defineConfig({
         title: 'HackTheFuture',
         description: 'The serverless quest beneath the surface',
-        base: '/',
+        base: '/HTF-2025',
 
         ignoreDeadLinks: true,
 
