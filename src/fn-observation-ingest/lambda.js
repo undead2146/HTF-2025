@@ -24,19 +24,53 @@ const dynamoClient = AWSXRay.captureAWSv3Client(new DynamoDBClient());
 exports.handler = async (event) => {
     console.log(JSON.stringify(event));
 
-    // Check where it should be stored
+    for (const record of event.Records) {
+        const snsMessage = JSON.parse(record.Sns.Message);
+        const messageId = record.Sns.MessageId;
+        const type = record.Sns.MessageAttributes?.type?.Value || 'observation';
 
-    // Call the correct message
+        if (type === 'observation' || type === 'rare-observation') {
+            await insertIntoDynamoDB(snsMessage, messageId, type);
+        } else if (type === 'alert') {
+            await insertIntoOpenSearch(snsMessage, messageId, type);
+        }
+    }
 }
 
-async function insertIntoDynamoDB() {
-    // Format the message for DynamoDB parameters (check README for indexes)
+async function insertIntoDynamoDB(message, messageId, type) {
+    const params = {
+        TableName: process.env.DynamoDBTable,
+        Item: {
+            id: messageId,
+            team: process.env.TeamName,
+            species: message.species,
+            location: message.location,
+            intensity: message.intensity,
+            timestamp: new Date().toISOString(),
+            type: type
+        },
+        ConditionExpression: 'attribute_not_exists(id)'
+    };
 
-    // Use the `dynamoClient` to insert the record into DynamoDB
+    const docClient = DynamoDBDocumentClient.from(dynamoClient);
+    await docClient.send(new PutCommand(params));
 }
 
-async function insertIntoOpenSearch() {
-    // Format the message for OpenSearch parameters (check README for indexes)
+async function insertIntoOpenSearch(message, messageId, type) {
+    const index = process.env.TeamName.toLowerCase();
+    const body = {
+        id: messageId,
+        team: process.env.TeamName,
+        species: message.species,
+        location: message.location,
+        intensity: message.intensity,
+        timestamp: new Date().toISOString(),
+        type: type
+    };
 
-    // Use the `osClient` to insert the record into OpenSearch
+    await osClient.index({
+        index: index,
+        id: messageId,
+        body: body
+    });
 }
