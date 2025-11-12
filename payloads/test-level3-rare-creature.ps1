@@ -48,12 +48,12 @@ Write-Host "Verification Steps:" -ForegroundColor Cyan
 Write-Host ""
 
 Write-Host "1. Check Signal Classifier logs:" -ForegroundColor Yellow
-Write-Host "   aws logs tail /aws/lambda/HTF25-SignalClassifier --since 2m --follow" -ForegroundColor White
+Write-Host "   aws logs tail /aws/lambda/HTF25-SuperHacker-SonarSignalClassifier --since 2m --follow" -ForegroundColor White
 Write-Host "   Look for: 'Routing observation to SNS' with rare-creature type" -ForegroundColor DarkGray
 Write-Host ""
 
 Write-Host "2. Check Observation Ingest logs:" -ForegroundColor Yellow
-Write-Host "   aws logs tail /aws/lambda/HTF25-ObservationIngest --since 2m --follow" -ForegroundColor White
+Write-Host "   aws logs tail /aws/lambda/HTF25-SuperHacker-SonarObservationIngest --since 2m --follow" -ForegroundColor White
 Write-Host "   Look for: 'Successfully stored observation in DynamoDB'" -ForegroundColor DarkGray
 Write-Host ""
 

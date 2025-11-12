@@ -50,8 +50,8 @@ Show-Success "Event sent successfully"
 Wait-ForProcessing $WAIT_TIME
 
 Show-Step 2 "Check CloudWatch logs:"
-Write-Host "  Signal Classifier: aws logs tail /aws/lambda/HTF25-SignalClassifier --since 2m --follow" -ForegroundColor DarkGray
-Write-Host "  Observation Ingest: aws logs tail /aws/lambda/HTF25-ObservationIngest --since 2m --follow" -ForegroundColor DarkGray
+Write-Host "  Signal Classifier: aws logs tail /aws/lambda/HTF25-SuperHacker-SonarSignalClassifier --since 2m --follow" -ForegroundColor DarkGray
+Write-Host "  Observation Ingest: aws logs tail /aws/lambda/HTF25-SuperHacker-SonarObservationIngest --since 2m --follow" -ForegroundColor DarkGray
 
 # =============================================================================
 # LEVEL 2: High-Intensity Alert
@@ -63,16 +63,16 @@ Write-Host "This will flow through:" -ForegroundColor White
 Write-Host "  EventBridge → Signal Classifier → SNS → Observation Ingest → DynamoDB + OpenSearch" -ForegroundColor DarkGray
 Write-Host ""
 
-$alertEvent = @"
+$alertEvent = @'
 [
   {
     "Source": "ocean.sonar",
     "DetailType": "sonar-signal",
     "Detail": "{\"observationId\":\"alert-demo-001\",\"timestamp\":\"2025-12-11T14:30:00Z\",\"coordinates\":{\"latitude\":-23.5,\"longitude\":-45.8},\"depth\":2800,\"temperature\":380.5,\"type\":\"hydrothermal-vent\",\"intensity\":95,\"description\":\"Extremely hazardous hydrothermal activity detected - immediate alert\"}",
-    "EventBusName": "$EVENT_BUS_NAME"
+    "EventBusName": "HTF25-EventBridge-EventBus"
   }
 ]
-"@
+'@
 
 Show-Step 1 "Sending high-intensity alert to EventBridge..."
 aws events put-events --entries $alertEvent | Out-Null
@@ -92,16 +92,16 @@ Write-Host "Testing a rare deep-sea creature sighting..." -ForegroundColor White
 Write-Host "This demonstrates special handling for rare species." -ForegroundColor White
 Write-Host ""
 
-$rareCreatureEvent = @"
+$rareCreatureEvent = @'
 [
   {
     "Source": "ocean.sonar",
     "DetailType": "sonar-signal",
     "Detail": "{\"observationId\":\"rare-demo-001\",\"timestamp\":\"2025-12-11T14:31:00Z\",\"coordinates\":{\"latitude\":-15.2,\"longitude\":140.7},\"depth\":8200,\"temperature\":2.1,\"type\":\"rare-creature\",\"intensity\":45,\"description\":\"Unidentified bioluminescent organism - potentially new species\"}",
-    "EventBusName": "$EVENT_BUS_NAME"
+    "EventBusName": "HTF25-EventBridge-EventBus"
   }
 ]
-"@
+'@
 
 Show-Step 1 "Sending rare creature observation to EventBridge..."
 aws events put-events --entries $rareCreatureEvent | Out-Null
@@ -112,7 +112,7 @@ Wait-ForProcessing $WAIT_TIME
 # =============================================================================
 # LEVEL 4: Dark Signal Processing
 # =============================================================================
-Show-Header "LEVEL 4: Dark Signal Decryption & Translation"
+Show-Header "LEVEL 4: Dark Signal Decryption and Translation"
 
 Write-Host "Testing encrypted dark signal processing..." -ForegroundColor White
 Write-Host "This will flow through the complete pipeline:" -ForegroundColor White
@@ -145,17 +145,17 @@ Show-Success "Check your Discord channel for the translated message!"
 # =============================================================================
 # VERIFICATION
 # =============================================================================
-Show-Header "Verification & Next Steps"
+Show-Header "Verification and Next Steps"
 
 Write-Host "To verify all data was stored correctly:" -ForegroundColor Yellow
 Write-Host "  .\test-check-dynamodb.ps1" -ForegroundColor White
 Write-Host ""
 
 Write-Host "To check CloudWatch logs for any specific function:" -ForegroundColor Yellow
-Write-Host "  aws logs tail /aws/lambda/HTF25-SignalClassifier --since 5m --follow" -ForegroundColor White
-Write-Host "  aws logs tail /aws/lambda/HTF25-ObservationIngest --since 5m --follow" -ForegroundColor White
-Write-Host "  aws logs tail /aws/lambda/HTF25-DarkSignalDecipherer --since 5m --follow" -ForegroundColor White
-Write-Host "  aws logs tail /aws/lambda/HTF25-MessageTranslator --since 5m --follow" -ForegroundColor White
+Write-Host "  aws logs tail /aws/lambda/HTF25-SuperHacker-SonarSignalClassifier --since 5m --follow" -ForegroundColor White
+Write-Host "  aws logs tail /aws/lambda/HTF25-SuperHacker-SonarObservationIngest --since 5m --follow" -ForegroundColor White
+Write-Host "  aws logs tail /aws/lambda/HTF25-SuperHacker-DarkSignalDecipherer --since 5m --follow" -ForegroundColor White
+Write-Host "  aws logs tail /aws/lambda/HTF25-SuperHacker-MessageTranslator --since 5m --follow" -ForegroundColor White
 Write-Host ""
 
 Show-Success "Complete demo suite finished!"

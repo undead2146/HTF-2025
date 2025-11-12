@@ -1,0 +1,8 @@
+[
+    {
+        "Source": "HTF25",
+        "DetailType": "ToBeUsedBy-SuperHacker",
+        "Detail": "{\"type\":\"dark-signal\",\"originalPayload\":{\"data\":\"eyJhbGciOiJzdWJzdGl0dXRpb24tY2lwaGVyIiwia2lkIjoiOWU4ZDdjNmItNWE0Zi00ZTNkLThjMmItMWEwZjllOGQ3YzZiIiwiY2lwaGVyIjoidmYgYWZlaCBteiBtY2ZleiJ9\",\"species\":\"creature\",\"location\":\"lagoon-east\"}}",
+        "EventBusName": "HTF25-EventBridge-EventBus"
+    }
+]
